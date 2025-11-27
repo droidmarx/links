@@ -1,11 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi Links</title>
+    <title>Multi Links - Central de Downloads de Aplicativos</title>
+    <meta name="description" content="Acesse links de aplicativos como Multi IBO, Multi P2 OTT e mais em um só lugar. Fácil busca e download rápido.">
+    <meta name="keywords" content="multi links, download aplicativos, aftv news, multi ibo, multi p2 ott, multsmartes">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph for SEO -->
+    <meta property="og:title" content="Multi Links - Central de Downloads">
+    <meta property="og:description" content="Centralize seus downloads de aplicativos em um lugar seguro e rápido.">
+    <meta property="og:image" content="https://www.aftvnews.com/wp-content/uploads/2020/06/logo-aftvnews-200x31-1.png">
+    <meta property="og:url" content="https://yourdomain.com/multi-links">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://www.aftvnews.com/favicon.ico">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- AOS Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -13,14 +24,15 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #ff7e00, #000000);
-            color: white;
+            background: #f8f9fa; /* Neutro: cinza claro */
+            color: #333; /* Texto escuro neutro */
             min-height: 100vh;
             padding: 20px;
+            line-height: 1.6;
         }
         
         .container {
@@ -35,69 +47,114 @@
             padding-top: 20px;
         }
         
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+            filter: grayscale(100%); /* Neutro: desatura logo */
+        }
+        
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            color: #212529; /* Preto neutro */
         }
         
         .subtitle {
             font-size: 1.2rem;
-            color: #ffcc99;
+            color: #6c757d; /* Cinza médio neutro */
             margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        #searchInput {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: 1px solid #dee2e6; /* Borda neutra */
+            border-radius: 25px;
+            font-size: 1rem;
+            background: #ffffff;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        #searchInput::placeholder {
+            color: #adb5bd; /* Placeholder neutro */
+        }
+        
+        #searchInput:focus {
+            outline: none;
+            border-color: #495057; /* Foco sutil */
+            box-shadow: 0 0 0 0.2rem rgba(73, 80, 87, 0.15);
         }
         
         .link-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 20px;
         }
         
         .link-item {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Sombra neutra sutil */
+            border: 1px solid #e9ecef;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animação suave com ease-out */
+            opacity: 0;
+            transform: translateY(20px);
         }
         
-        .link-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        .link-item.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .link-item.hidden {
+            display: none;
         }
         
         .link-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
+            gap: 10px;
         }
         
         .link-title {
             font-size: 1.4rem;
             font-weight: 600;
-            color: #ffcc00;
+            color: #212529; /* Título neutro */
         }
         
         .link-number {
             font-size: 1.2rem;
             font-weight: 500;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 5px 12px;
+            background: #f8f9fa;
+            padding: 6px 12px;
             border-radius: 6px;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #495057;
+            border: 1px solid #dee2e6;
         }
         
         .link-url {
-            color: #ffcc99;
-            margin-bottom: 15px;
+            color: #6c757d;
+            margin-bottom: 16px;
             word-break: break-all;
             font-size: 0.95rem;
+            font-family: 'Courier New', monospace; /* Fonte mono para URLs */
         }
         
         .button-group {
@@ -111,31 +168,74 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave */
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.95rem;
         }
         
         .copy-btn {
-            background-color: #ff7e00;
+            background-color: #6c757d; /* Cinza neutro para copiar */
             color: white;
         }
         
         .copy-btn:hover {
-            background-color: #ff9900;
-            transform: scale(1.05);
+            background-color: #5a6268;
+            transform: translateY(-1px); /* Hover sutil */
         }
         
         .download-btn {
-            background-color: #333;
+            background-color: #495057; /* Cinza escuro neutro */
             color: white;
         }
         
         .download-btn:hover {
-            background-color: #555;
-            transform: scale(1.05);
+            background-color: #343a40;
+            transform: translateY(-1px);
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366; /* Mantém WhatsApp para CTA forte */
+            color: white;
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); /* Sombra para destaque CTA */
+        }
+        
+        .upload-section {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+        
+        .upload-section h2 {
+            color: #212529;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .upload-section p {
+            color: #6c757d;
+            margin-bottom: 24px;
+            font-size: 1rem;
         }
         
         .notification {
@@ -143,29 +243,36 @@
             top: 30px;
             right: 30px;
             padding: 15px 25px;
-            background-color: #2ecc71;
+            background-color: #28a745; /* Verde neutro para sucesso */
             color: white;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transform: translateX(100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             font-weight: 500;
         }
         
         .notification.show {
             opacity: 1;
+            transform: translateX(0);
         }
         
         footer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 60px;
             padding: 20px;
-            color: #ffcc99;
+            color: #6c757d;
             font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
         }
         
         @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
             .link-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -180,13 +287,13 @@
                 flex-grow: 1;
                 justify-content: center;
             }
-        }
-        
-        @media (max-width: 480px) {
+            
             h1 {
                 font-size: 2rem;
             }
-            
+        }
+        
+        @media (max-width: 480px) {
             .link-title {
                 font-size: 1.2rem;
             }
@@ -194,160 +301,34 @@
             .link-number {
                 font-size: 1rem;
             }
+            
+            .upload-section {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header data-aos="fade-down">
+            <img src="https://www.aftvnews.com/wp-content/uploads/2020/06/logo-aftvnews-200x31-1.png" alt="Logo AFTV News - Central de Downloads Multi Links" class="logo">
             <h1>Multi Links</h1>
-            <p class="subtitle">Acesse todos os links em um só lugar</p>
+            <p class="subtitle">Centralize e acesse todos os seus aplicativos favoritos em um só lugar</p>
         </header>
         
+        <div class="search-container" data-aos="fade-up">
+            <input type="text" id="searchInput" placeholder="🔍 Busque por aplicativo (ex: Multi IBO)...">
+        </div>
+        
         <div class="link-list">
-            <!-- Multi IBO -->
-            <div class="link-item" data-aos="fade-up" data-aos-delay="100">
-                <div class="link-header">
-                    <div class="link-title">Multi IBO</div>
-                    <div class="link-number">
-                        <span>8701940</span>
-                        <button class="copy-btn" data-number="8701940">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copiar
-                        </button>
-                    </div>
-                </div>
-                <div class="link-url">http://aftv.news/8701940</div>
-                <div class="button-group">
-                    <button class="download-btn" onclick="window.open('http://aftv.news/8701940', '_blank')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        Acessar Link
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Multi P2 OTT -->
-            <div class="link-item" data-aos="fade-up" data-aos-delay="200">
-                <div class="link-header">
-                    <div class="link-title">Multi P2 OTT</div>
-                    <div class="link-number">
-                        <span>5908546</span>
-                        <button class="copy-btn" data-number="5908546">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copiar
-                        </button>
-                    </div>
-                </div>
-                <div class="link-url">http://aftv.news/5908546</div>
-                <div class="button-group">
-                    <button class="download-btn" onclick="window.open('http://aftv.news/5908546', '_blank')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        Acessar Link
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Multi P2 Americano -->
-            <div class="link-item" data-aos="fade-up" data-aos-delay="300">
-                <div class="link-header">
-                    <div class="link-title">Multi P2 Americano</div>
-                    <div class="link-number">
-                        <span>8925972</span>
-                        <button class="copy-btn" data-number="8925972">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copiar
-                        </button>
-                    </div>
-                </div>
-                <div class="link-url">http://aftv.news/8925972</div>
-                <div class="button-group">
-                    <button class="download-btn" onclick="window.open('http://aftv.news/8925972', '_blank')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        Acessar Link
-                    </button>
-                </div>
-            </div>
-            
-            <!-- MultSmartes -->
-            <div class="link-item" data-aos="fade-up" data-aos-delay="400">
-                <div class="link-header">
-                    <div class="link-title">MultSmartes</div>
-                    <div class="link-number">
-                        <span>6495566</span>
-                        <button class="copy-btn" data-number="6495566">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copiar
-                        </button>
-                    </div>
-                </div>
-                <div class="link-url">http://aftv.news/6495566</div>
-                <div class="button-group">
-                    <button class="download-btn" onclick="window.open('http://aftv.news/6495566', '_blank')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        Acessar Link
-                    </button>
-                </div>
-            </div>
-            
-            <!-- MultiXC -->
-            <div class="link-item" data-aos="fade-up" data-aos-delay="500">
-                <div class="link-header">
-                    <div class="link-title">MultiXC</div>
-                    <div class="link-number">
-                        <span>7035963</span>
-                        <button class="copy-btn" data-number="7035963">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copiar
-                        </button>
-                    </div>
-                </div>
-                <div class="link-url">http://aftv.news/7035963</div>
-                <div class="button-group">
-                    <button class="download-btn" onclick="window.open('http://aftv.news/7035963', '_blank')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        Acessar Link
-                    </button>
-                </div>
-            </div>
-            
             <!-- Ibo 4K -->
-            <div class="link-item" data-aos="fade-up" data-aos-delay="600">
+            <div class="link-item" data-title="Ibo 4K">
                 <div class="link-header">
                     <div class="link-title">Ibo 4K</div>
                     <div class="link-number">
                         <span>2647659</span>
-                        <button class="copy-btn" data-number="2647659">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <button class="copy-btn" data-number="2647659" aria-label="Copiar número 2647659">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
                                 <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
                             </svg>
@@ -357,8 +338,170 @@
                 </div>
                 <div class="link-url">http://aftv.news/2647659</div>
                 <div class="button-group">
-                    <button class="download-btn" onclick="window.open('http://aftv.news/2647659', '_blank')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/2647659', '_blank')" aria-label="Acessar link do Ibo 4K">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Acessar Link
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Multi IBO -->
+            <div class="link-item" data-title="Multi IBO">
+                <div class="link-header">
+                    <div class="link-title">Multi IBO</div>
+                    <div class="link-number">
+                        <span>8701940</span>
+                        <button class="copy-btn" data-number="8701940" aria-label="Copiar número 8701940">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+                <div class="link-url">http://aftv.news/8701940</div>
+                <div class="button-group">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/8701940', '_blank')" aria-label="Acessar link do Multi IBO">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Acessar Link
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Multi P2 Americano -->
+            <div class="link-item" data-title="Multi P2 Americano">
+                <div class="link-header">
+                    <div class="link-title">Multi P2 Americano</div>
+                    <div class="link-number">
+                        <span>8925972</span>
+                        <button class="copy-btn" data-number="8925972" aria-label="Copiar número 8925972">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+                <div class="link-url">http://aftv.news/8925972</div>
+                <div class="button-group">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/8925972', '_blank')" aria-label="Acessar link do Multi P2 Americano">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Acessar Link
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Multi P2 OTT -->
+            <div class="link-item" data-title="Multi P2 OTT">
+                <div class="link-header">
+                    <div class="link-title">Multi P2 OTT</div>
+                    <div class="link-number">
+                        <span>5908546</span>
+                        <button class="copy-btn" data-number="5908546" aria-label="Copiar número 5908546">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+                <div class="link-url">http://aftv.news/5908546</div>
+                <div class="button-group">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/5908546', '_blank')" aria-label="Acessar link do Multi P2 OTT">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Acessar Link
+                    </button>
+                </div>
+            </div>
+            
+            <!-- MultiXC -->
+            <div class="link-item" data-title="MultiXC">
+                <div class="link-header">
+                    <div class="link-title">MultiXC</div>
+                    <div class="link-number">
+                        <span>7035963</span>
+                        <button class="copy-btn" data-number="7035963" aria-label="Copiar número 7035963">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+                <div class="link-url">http://aftv.news/7035963</div>
+                <div class="button-group">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/7035963', '_blank')" aria-label="Acessar link do MultiXC">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Acessar Link
+                    </button>
+                </div>
+            </div>
+            
+            <!-- MultSmartes -->
+            <div class="link-item" data-title="MultSmartes">
+                <div class="link-header">
+                    <div class="link-title">MultSmartes</div>
+                    <div class="link-number">
+                        <span>6495566</span>
+                        <button class="copy-btn" data-number="6495566" aria-label="Copiar número 6495566">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+                <div class="link-url">http://aftv.news/6495566</div>
+                <div class="button-group">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/6495566', '_blank')" aria-label="Acessar link do MultSmartes">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Acessar Link
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Nextv Fast -->
+            <div class="link-item" data-title="Nextv Fast">
+                <div class="link-header">
+                    <div class="link-title">Nextv Fast</div>
+                    <div class="link-number">
+                        <span>4595613</span>
+                        <button class="copy-btn" data-number="4595613" aria-label="Copiar número 4595613">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+                <div class="link-url">http://aftv.news/4595613</div>
+                <div class="button-group">
+                    <button class="download-btn" onclick="window.open('http://aftv.news/4595613', '_blank')" aria-label="Acessar link do Nextv Fast">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
                             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                         </svg>
@@ -368,20 +511,54 @@
             </div>
         </div>
         
-        <footer data-aos="fade-up" data-aos-delay="700">
-            <p>© 2023 Multi Links - Todos os direitos reservados</p>
+        <div class="upload-section">
+            <h2>Adicione Seu Aplicativo</h2>
+            <p>Quer contribuir com um novo app para nossa comunidade? Envie sua sugestão agora e ajude a crescer nossa lista!</p>
+            <button class="whatsapp-btn" onclick="window.open('https://wa.me/5511915370708?text=Olá,%20gostaria%20de%20subir%20um%20novo%20aplicativo%20para%20a%20lista%20Multi%20Links.', '_blank')" aria-label="Contatar via WhatsApp para subir aplicativo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M13.601 2.049A5.002 5.002 0 0 0 8.5 0 5.002 5.002 0 0 0 3.399 2.049 3.65 3.65 0 0 0 0 5.899a3.644 3.644 0 0 0 2.401 3.35L.528 13.9a.609.609 0 0 0 .768.767L5.152 12.6a3.65 3.65 0 0 0 3.101.2 3.65 3.65 0 0 0 1.898-.763 5.002 5.002 0 0 0 5.101-5.101 5.002 5.002 0 0 0-2.101-5.101zM8.5 7.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                </svg>
+                Envie Sua Sugestão Agora
+            </button>
+        </div>
+        
+        <footer>
+            <p>© 2025 Multi Links - Todos os direitos reservados | Desenvolvido com foco em acessibilidade e usabilidade</p>
         </footer>
     </div>
     
-    <div class="notification" id="notification">Copiado para área de transferência!</div>
+    <div class="notification" id="notification">Copiado para a área de transferência!</div>
     
     <!-- AOS Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Inicializar AOS
+        // Inicializar AOS com configurações mais suaves
         AOS.init({
-            duration: 800,
-            once: true
+            duration: 600,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+
+        // Animação customizada para itens da lista (substitui AOS para stagger)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animate-in');
+                    }, index * 100); // Stagger effect
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.link-item').forEach(item => {
+            observer.observe(item);
         });
         
         // Adicionar event listeners aos botões de copiar
@@ -393,25 +570,70 @@
             });
         });
         
-        // Função para copiar para a área de transferência
+        // Função para copiar para a área de transferência (moderna)
         function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).catch(() => {
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
             const textarea = document.createElement('textarea');
             textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-999999px';
+            textarea.style.top = '-999999px';
             document.body.appendChild(textarea);
+            textarea.focus();
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
         }
         
-        // Função para mostrar a notificação
+        // Função para mostrar a notificação com animação
         function showNotification() {
             const notification = document.getElementById('notification');
             notification.classList.add('show');
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 2000);
+            }, 2500);
         }
+        
+        // Função de busca melhorada
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.link-item').forEach(item => {
+                const title = item.getAttribute('data-title').toLowerCase();
+                if (title.includes(term) || term === '') {
+                    item.style.display = 'block';
+                    item.classList.remove('hidden');
+                    // Re-trigger animação se visível
+                    if (item.classList.contains('animate-in')) {
+                        item.classList.remove('animate-in');
+                        setTimeout(() => item.classList.add('animate-in'), 50);
+                    }
+                } else {
+                    item.style.display = 'none';
+                    item.classList.add('hidden');
+                }
+            });
+        });
+
+        // Acessibilidade: Enter no search
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                // Foca no primeiro resultado
+                const firstVisible = document.querySelector('.link-item:not(.hidden)');
+                if (firstVisible) firstVisible.querySelector('.download-btn').focus();
+            }
+        });
     </script>
 </body>
 </html>
