@@ -3,503 +3,558 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi Links - Central de Downloads de Aplicativos</title>
-    <meta name="description" content="Acesse links de aplicativos como Multi IBO, Multi P2 OTT e mais em um só lugar. Fácil busca e download rápido.">
-    <meta name="keywords" content="multi links, download aplicativos, aftv news, multi ibo, multi p2 ott, multsmartes">
-    <meta name="robots" content="index, follow">
-    <!-- Open Graph for SEO -->
-    <meta property="og:title" content="Multi Links - Central de Downloads">
-    <meta property="og:description" content="Centralize seus downloads de aplicativos em um lugar seguro e rápido.">
-    <meta property="og:image" content="https://www.aftvnews.com/wp-content/uploads/2020/06/logo-aftvnews-200x31-1.png">
-    <meta property="og:url" content="https://yourdomain.com/multi-links">
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="https://www.aftvnews.com/favicon.ico">
+    <title>Painéis & Listas IPTV - OS</title>
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- AOS Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --bg-color: #080a13;
+            --text-main: #ffffff;
+            --primary-neon: #00f3ff;
+            --card-bg: rgba(10, 15, 30, 0.6);
+            --window-bg: rgba(15, 20, 35, 0.95);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            user-select: none; /* Evita selecionar texto ao arrastar janelas */
         }
-        
+
         body {
-            background: #f8f9fa; /* Neutro: cinza claro */
-            color: #333; /* Texto escuro neutro */
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
-        }
-        
-        .logo {
-            width: 120px;
-            height: auto;
-            margin-bottom: 10px;
-            filter: grayscale(100%); /* Neutro: desatura logo */
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-            color: #212529; /* Preto neutro */
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #6c757d; /* Cinza médio neutro */
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-        
-        .search-container {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        #searchInput {
-            width: 100%;
-            max-width: 400px;
-            padding: 12px 20px;
-            border: 1px solid #dee2e6; /* Borda neutra */
-            border-radius: 25px;
-            font-size: 1rem;
-            background: #ffffff;
-            color: #333;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        #searchInput::placeholder {
-            color: #adb5bd; /* Placeholder neutro */
-        }
-        
-        #searchInput:focus {
-            outline: none;
-            border-color: #495057; /* Foco sutil */
-            box-shadow: 0 0 0 0.2rem rgba(73, 80, 87, 0.15);
-        }
-        
-        .link-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        .link-item {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Sombra neutra sutil */
-            border: 1px solid #e9ecef;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animação suave com ease-out */
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .link-item.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .link-item.hidden {
-            display: none;
-        }
-        
-        .link-header {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px 0 80px 0; /* Padding inferior para a barra de tarefas */
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.1), transparent 50%),
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin: 30px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon); }
+            to { text-shadow: 0 0 15px var(--primary-neon), 0 0 30px var(--primary-neon), 0 0 40px var(--primary-neon); }
+        }
+
+        /* Slider Container (Lista Horizontal) - Agora usado em ambas as categorias */
+        .slider-container {
+            width: 100%;
+            max-width: 1100px; /* Ajustado para segurar bem os 4 cards */
+            padding: 20px 0 30px 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            display: flex;
+            gap: 20px; /* Reduzido o espaço entre eles */
+            padding-left: 50vw;
+            padding-right: 50vw;
+            margin-left: -50vw;
+            margin-right: -50vw;
+        }
+
+        .slider-container::-webkit-scrollbar { height: 8px; }
+        .slider-container::-webkit-scrollbar-track { background: rgba(0, 255, 255, 0.05); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 10px; }
+
+        /* Card Design - TAMANHO REDUZIDO para caber 4 na tela */
+        .card {
+            min-width: 230px; /* Reduzido de 280px para 230px */
+            max-width: 230px;
+            height: 280px; /* Altura reduzida de 320px para 280px */
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px 15px; /* Espaçamento interno menor */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            scroll-snap-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 10px;
         }
-        
-        .link-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #212529; /* Título neutro */
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg); transition: 0.5s; z-index: 1; pointer-events: none;
         }
-        
-        .link-number {
-            font-size: 1.2rem;
-            font-weight: 500;
-            background: #f8f9fa;
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #495057;
-            border: 1px solid #dee2e6;
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.3), inset 0 0 15px rgba(0, 243, 255, 0.1);
         }
-        
-        .link-url {
-            color: #6c757d;
-            margin-bottom: 16px;
-            word-break: break-all;
-            font-size: 0.95rem;
-            font-family: 'Courier New', monospace; /* Fonte mono para URLs */
+        .card:hover::before { left: 150%; }
+
+        .card-header {
+            width: 100%; height: 90px; /* Reduzido para caber nos cards menores */
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 2;
         }
-        
-        .button-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+
+        .card-header img {
+            max-width: 80%; max-height: 80%; object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); transition: transform 0.4s ease, filter 0.4s ease;
         }
-        
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave */
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+
+        .card:hover .card-header img {
+            transform: scale(1.15); filter: drop-shadow(0 0 15px var(--primary-neon));
         }
-        
-        .copy-btn {
-            background-color: #6c757d; /* Cinza neutro para copiar */
-            color: white;
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif; text-align: center; font-size: 1.1rem; /* Fonte menor */
+            color: #fff; letter-spacing: 2px; margin-top: 5px; text-shadow: 0 0 5px rgba(255,255,255,0.5); z-index: 2;
         }
-        
-        .copy-btn:hover {
-            background-color: #5a6268;
-            transform: translateY(-1px); /* Hover sutil */
+
+        .btn-acessar {
+            display: block; width: 100%; padding: 12px 0; text-align: center; cursor: pointer;
+            color: #fff; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold;
+            letter-spacing: 1px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--primary-neon);
+            border-radius: 8px; transition: all 0.3s ease; position: relative; overflow: hidden; z-index: 2;
         }
-        
-        .download-btn {
-            background-color: #495057; /* Cinza escuro neutro */
-            color: white;
+
+        .btn-acessar::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary-neon); z-index: -1; transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease;
         }
-        
-        .download-btn:hover {
-            background-color: #343a40;
-            transform: translateY(-1px);
+
+        .btn-acessar:hover { color: #000; box-shadow: 0 0 15px var(--primary-neon); }
+        .btn-acessar:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        .status-dot {
+            position: absolute; top: 12px; right: 12px; width: 8px; height: 8px;
+            background-color: #0f0; border-radius: 50%; box-shadow: 0 0 10px #0f0; animation: blink 1.5s infinite alternate;
         }
+        @keyframes blink { from { opacity: 0.4; } to { opacity: 1; box-shadow: 0 0 15px #0f0, 0 0 25px #0f0; } }
+
+        /* =========================================
+           GERENCIADOR DE JANELAS E BARRA DE TAREFAS
+           ========================================= */
         
-        .whatsapp-btn {
-            background-color: #25D366; /* Mantém WhatsApp para CTA forte */
-            color: white;
-            width: 100%;
-            justify-content: center;
-            margin-top: 20px;
-            padding: 14px 20px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .whatsapp-btn:hover {
-            background-color: #128C7E;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); /* Sombra para destaque CTA */
-        }
-        
-        .upload-section {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            margin-top: 40px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e9ecef;
-        }
-        
-        .upload-section h2 {
-            color: #212529;
-            margin-bottom: 16px;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .upload-section p {
-            color: #6c757d;
-            margin-bottom: 24px;
-            font-size: 1rem;
-        }
-        
-        .notification {
+        .taskbar {
             position: fixed;
-            top: 30px;
-            right: 30px;
-            padding: 15px 25px;
-            background-color: #28a745; /* Verde neutro para sucesso */
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            font-weight: 500;
+            bottom: 0; left: 0; width: 100%; height: 60px;
+            background: rgba(8, 10, 19, 0.95); border-top: 1px solid var(--primary-neon);
+            backdrop-filter: blur(10px); display: flex; align-items: center; padding: 0 20px;
+            gap: 15px; z-index: 99999; overflow-x: auto;
         }
+
+        .taskbar-item {
+            padding: 10px 20px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--primary-neon);
+            border-radius: 5px; color: #fff; font-family: 'Orbitron', sans-serif; cursor: pointer;
+            transition: 0.3s; white-space: nowrap; font-size: 0.9rem;
+        }
+        .taskbar-item:hover, .taskbar-item.active { background: var(--primary-neon); color: #000; }
+        .taskbar-item.minimized { opacity: 0.6; border-style: dashed; }
+
+        .window-modal {
+            position: fixed; width: 850px; height: 600px; max-width: 100vw; max-height: calc(100vh - 60px);
+            background: var(--window-bg); border: 1px solid var(--primary-neon); border-radius: 12px;
+            display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px); transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, border-radius 0.3s;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+
+        .window-modal.maximized {
+            top: 0 !important; left: 0 !important; transform: none !important;
+            width: 100vw !important; height: calc(100vh - 60px) !important; border-radius: 0;
+        }
+
+        .window-header {
+            height: 45px; background: rgba(0, 0, 0, 0.5); border-bottom: 1px solid var(--primary-neon);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 15px;
+            cursor: grab;
+        }
+        .window-header:active { cursor: grabbing; }
+
+        .window-title {
+            font-family: 'Orbitron', sans-serif; color: var(--primary-neon); font-size: 1.1rem;
+            letter-spacing: 1px; font-weight: bold; pointer-events: none;
+        }
+
+        .window-controls { display: flex; gap: 8px; }
+        .window-controls button {
+            width: 30px; height: 30px; border: none; border-radius: 5px; background: rgba(255,255,255,0.1);
+            color: #fff; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex;
+            justify-content: center; align-items: center;
+        }
+        .window-controls button:hover { background: rgba(255,255,255,0.3); }
+        .window-controls .btn-close:hover { background: #ff4757; }
+
+        .window-body { flex: 1; display: flex; flex-direction: column; position: relative; background: #fff; }
         
-        .notification.show {
-            opacity: 1;
-            transform: translateX(0);
+        .iframe-warning {
+            background: #ffeaa7; color: #d63031; padding: 8px; text-align: center; font-size: 0.85rem; font-weight: bold;
         }
-        
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 20px;
-            color: #6c757d;
-            font-size: 0.9rem;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .link-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .button-group {
-                width: 100%;
-            }
-            
-            button {
-                flex-grow: 1;
-                justify-content: center;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .link-title {
-                font-size: 1.2rem;
-            }
-            
-            .link-number {
-                font-size: 1rem;
-            }
-            
-            .upload-section {
-                padding: 20px;
-            }
-        }
+        .iframe-warning a { color: #0984e3; text-decoration: underline; }
+
+        .window-body iframe { width: 100%; height: 100%; border: none; }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <header data-aos="fade-down">
-            <img src="https://www.aftvnews.com/wp-content/uploads/2020/06/logo-aftvnews-200x31-1.png" alt="Logo AFTV News - Central de Downloads Multi Links" class="logo">
-            <h1>Multi Links</h1>
-            <p class="subtitle">Centralize e acesse todos os seus aplicativos favoritos em um só lugar</p>
-        </header>
-        
-        <div class="search-container" data-aos="fade-up">
-            <input type="text" id="searchInput" placeholder="🔍 Busque por aplicativo (ex: Multi IBO)...">
+
+    <!-- ================= SESSÃO 1 ================= -->
+    <h1>PAINÉIS DE GESTÃO</h1>
+    
+    <div class="slider-container">
+        <!-- CORE -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('core', 'CORE', 'https://painelcliente.com')">
+                <img src="https://painelcliente.com/res/images/panel.png" alt="CORE Logo">
+            </div>
+            <h3 class="card-title">CORE</h3>
+            <button class="btn-acessar" onclick="openApp('core', 'CORE', 'https://painelcliente.com')">ACESSAR</button>
         </div>
-        
-        <div class="link-list" id="linkList">
-            <!-- Os itens serão gerados dinamicamente aqui -->
-            <div class="loading">Carregando aplicativos...</div>
+
+        <!-- KM21 -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('km21', 'KM21', 'https://mk21plataformas.sigma.st')">
+                <img src="https://painelmk21.top/api/settings/logo/V86Yr3mN?v=e0d69312" alt="KM21 Logo">
+            </div>
+            <h3 class="card-title">KM21</h3>
+            <button class="btn-acessar" onclick="openApp('km21', 'KM21', 'https://mk21plataformas.sigma.st')">ACESSAR</button>
         </div>
-        
-        <div class="upload-section">
-            <h2>Adicione Seu Aplicativo</h2>
-            <p>Quer contribuir com um novo app para nossa comunidade? Envie sua sugestão agora e ajude a crescer nossa lista!</p>
-            <button class="whatsapp-btn" onclick="window.open('https://wa.me/5511915370708?text=Olá,%20gostaria%20de%20subir%20um%20novo%20aplicativo%20para%20a%20lista%20Multi%20Links.', '_blank')" aria-label="Contatar via WhatsApp para subir aplicativo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M13.601 2.049A5.002 5.002 0 0 0 8.5 0 5.002 5.002 0 0 0 3.399 2.049 3.65 3.65 0 0 0 0 5.899a3.644 3.644 0 0 0 2.401 3.35L.528 13.9a.609.609 0 0 0 .768.767L5.152 12.6a3.65 3.65 0 0 0 3.101.2 3.65 3.65 0 0 0 1.898-.763 5.002 5.002 0 0 0 5.101-5.101 5.002 5.002 0 0 0-2.101-5.101zM8.5 7.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                </svg>
-                Envie Sua Sugestão Agora
-            </button>
+
+        <!-- SLIM -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('slim', 'SLIM', 'https://q.slimtv.in/')">
+                <img src="https://painelslim.site/api/settings/logo/2O6Bq5RD?v=7b3b597a" alt="SLIM Logo">
+            </div>
+            <h3 class="card-title">SLIM</h3>
+            <button class="btn-acessar" onclick="openApp('slim', 'SLIM', 'https://q.slimtv.in/')">ACESSAR</button>
         </div>
-        
-        <footer>
-            <p>© 2025 Multi Links - Todos os direitos reservados | Desenvolvido com foco em acessibilidade e usabilidade</p>
-        </footer>
+
+        <!-- X3 -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('x3', 'X3', 'https://painelx3.site/#/sign-in')">
+                <img src="https://painelx3.site/api/settings/logo/jwDZxAkN?v=cf196d55" alt="X3 Logo">
+            </div>
+            <h3 class="card-title">X3</h3>
+            <button class="btn-acessar" onclick="openApp('x3', 'X3', 'https://painelx3.site/#/sign-in')">ACESSAR</button>
+        </div>
+
+        <!-- NOTIFIQUE -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('notifique', 'NOTIFIQUE', 'https://gnotifique.flutterflow.app/')">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_S5RD3lPCrDvNulCY6BHks7rd_Ph4lc7tepKBQ6K-wQ&s=10" style="border-radius: 10px;" alt="NOTIFIQUE Logo">
+            </div>
+            <h3 class="card-title">NOTIFIQUE</h3>
+            <button class="btn-acessar" onclick="openApp('notifique', 'NOTIFIQUE', 'https://gnotifique.flutterflow.app/')">ACESSAR</button>
+        </div>
+
+        <!-- IBO REVENDA -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('iborevenda', 'IBO REVENDA', 'https://gerenciaapp.top')">
+                <img src="https://gerenciaapp.top/storage/logos/f20wStrbdXRPzXn8viYqlzk8LAQA8dZgcQT0PVRj.png" alt="IBO Revenda Logo">
+            </div>
+            <h3 class="card-title">IBO REVENDA</h3>
+            <button class="btn-acessar" onclick="openApp('iborevenda', 'IBO REVENDA', 'https://gerenciaapp.top')">ACESSAR</button>
+        </div>
     </div>
+
+
+    <!-- ================= SESSÃO 2 ================= -->
+    <!-- Modificado de Grid para Slider como solicitado -->
+    <h1>SUBIR LISTAS</h1>
     
-    <div class="notification" id="notification">Copiado para a área de transferência!</div>
-    
-    <!-- AOS Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <div class="slider-container">
+        
+        <!-- LazerPlay -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('lazerplay', 'LAZERPLAY', 'https://appacesso.com/#/login')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=LazerPlay" alt="LazerPlay">
+            </div>
+            <h3 class="card-title">LAZERPLAY</h3>
+            <button class="btn-acessar" onclick="openApp('lazerplay', 'LAZERPLAY', 'https://appacesso.com/#/login')">ABRIR JANELA</button>
+        </div>
+
+        <!-- FunPlay -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('funplay', 'FUNPLAY', 'https://funplays.app/#/login')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=FunPlay" alt="FunPlay">
+            </div>
+            <h3 class="card-title">FUNPLAY</h3>
+            <button class="btn-acessar" onclick="openApp('funplay', 'FUNPLAY', 'https://funplays.app/#/login')">ABRIR JANELA</button>
+        </div>
+
+        <!-- QuickPlayer -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('quickplayer', 'QUICKPLAYER', 'https://quickplayer.app/#/login')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=QuickPlayer" alt="QuickPlayer">
+            </div>
+            <h3 class="card-title">QUICKPLAYER</h3>
+            <button class="btn-acessar" onclick="openApp('quickplayer', 'QUICKPLAYER', 'https://quickplayer.app/#/login')">ABRIR JANELA</button>
+        </div>
+
+        <!-- DreamTV -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('dreamtv', 'DREAMTV', 'https://dreamtv.life/#/login')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=DreamTV" alt="DreamTV">
+            </div>
+            <h3 class="card-title">DREAMTV</h3>
+            <button class="btn-acessar" onclick="openApp('dreamtv', 'DREAMTV', 'https://dreamtv.life/#/login')">ABRIR JANELA</button>
+        </div>
+
+        <!-- IboPlayer -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('iboplayer', 'IBOPLAYER', 'https://iboplayer.com/device/login')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=IboPlayer" alt="IboPlayer">
+            </div>
+            <h3 class="card-title">IBOPLAYER</h3>
+            <button class="btn-acessar" onclick="openApp('iboplayer', 'IBOPLAYER', 'https://iboplayer.com/device/login')">ABRIR JANELA</button>
+        </div>
+
+        <!-- Assist+ -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('assistplus', 'ASSIST+', 'https://exclusivovip.org/#/login')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=Assist+" alt="Assist+">
+            </div>
+            <h3 class="card-title">ASSIST+</h3>
+            <button class="btn-acessar" onclick="openApp('assistplus', 'ASSIST+', 'https://exclusivovip.org/#/login')">ABRIR JANELA</button>
+        </div>
+
+        <!-- SmartOne -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('smartone', 'SMARTONE', 'https://smartone-iptv.com/')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=SmartOne" alt="SmartOne">
+            </div>
+            <h3 class="card-title">SMARTONE</h3>
+            <button class="btn-acessar" onclick="openApp('smartone', 'SMARTONE', 'https://smartone-iptv.com/')">ABRIR JANELA</button>
+        </div>
+
+        <!-- Duplecast -->
+        <div class="card">
+            <div class="status-dot"></div>
+            <div class="card-header" onclick="openApp('duplecast', 'DUPLECAST', 'https://duplecast.com/')">
+                <img src="https://placehold.co/200x80/transparent/00f3ff?text=Duplecast" alt="Duplecast">
+            </div>
+            <h3 class="card-title">DUPLECAST</h3>
+            <button class="btn-acessar" onclick="openApp('duplecast', 'DUPLECAST', 'https://duplecast.com/')">ABRIR JANELA</button>
+        </div>
+    </div>
+
+    <!-- ================= INTERFACE OS ================= -->
+    <!-- Barra de Tarefas -->
+    <div class="taskbar" id="taskbar"></div>
+
+    <!-- Container do Gerenciador de Janelas -->
+    <div id="window-manager"></div>
+
     <script>
-        // Inicializar AOS com configurações mais suaves
-        AOS.init({
-            duration: 600,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 50
-        });
+        let zIndexCounter = 1000;
+        const apps = {};
 
-        // Função para carregar e renderizar os apps do JSON
-        async function loadApps() {
-            try {
-                const response = await fetch('apps.json');
-                const data = await response.json();
-                const apps = data.apps.sort((a, b) => a.name.localeCompare(b, 'pt', { sensitivity: 'base' })); // Ordena alfabeticamente (case-insensitive, pt-BR)
-                
-                const linkList = document.getElementById('linkList');
-                linkList.innerHTML = ''; // Limpa o loading
-                
-                apps.forEach((app, index) => {
-                    const linkItem = createLinkItem(app.name, app.code);
-                    linkItem.setAttribute('data-title', app.name);
-                    linkItem.style.setProperty('--index', index); // Para stagger animation
-                    linkList.appendChild(linkItem);
-                });
-                
-                // Animação stagger para novos itens
-                setTimeout(() => {
-                    document.querySelectorAll('.link-item').forEach(item => {
-                        item.classList.add('animate-in');
-                    });
-                }, 100);
-                
-                // Re-aplica event listeners para copiar
-                attachCopyListeners();
-                
-            } catch (error) {
-                console.error('Erro ao carregar JSON:', error);
-                document.getElementById('linkList').innerHTML = '<p>Erro ao carregar os aplicativos. Verifique o arquivo apps.json.</p>';
+        function openApp(id, title, url) {
+            // Se o app já estiver aberto, traz pra frente ou restaura
+            if (apps[id]) {
+                restoreWindow(id);
+                return;
             }
-        }
 
-        // Função para criar um item de link
-        function createLinkItem(title, number) {
-            const linkItem = document.createElement('div');
-            linkItem.className = 'link-item';
-            
-            const url = `http://aftv.news/${number}`;
-            
-            linkItem.innerHTML = `
-                <div class="link-header">
-                    <div class="link-title">${title}</div>
-                    <div class="link-number">
-                        <span>${number}</span>
-                        <button class="copy-btn" data-number="${number}" aria-label="Copiar número ${number}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                            </svg>
-                            Copiar
-                        </button>
+            zIndexCounter++;
+
+            // Criação da Janela
+            const win = document.createElement('div');
+            win.className = 'window-modal';
+            win.id = 'win-' + id;
+            win.style.zIndex = zIndexCounter;
+
+            // Offset para não criar as janelas 100% sobrepostas umas nas outras
+            const offset = (Object.keys(apps).length * 20);
+            win.style.transform = `translate(calc(-50% + ${offset}px), calc(-50% + ${offset}px))`;
+
+            win.innerHTML = `
+                <div class="window-header" onmousedown="startDrag(event, '${id}')">
+                    <span class="window-title">${title}</span>
+                    <div class="window-controls">
+                        <button onclick="minimizeWindow('${id}')" title="Minimizar">_</button>
+                        <button onclick="maximizeWindow('${id}')" title="Maximizar">◻</button>
+                        <button class="btn-close" onclick="closeWindow('${id}')" title="Fechar">✕</button>
                     </div>
                 </div>
-                <div class="link-url">${url}</div>
-                <div class="button-group">
-                    <button class="download-btn" onclick="window.open('${url}', '_blank')" aria-label="Acessar link do ${title}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        Acessar Link
-                    </button>
+                <div class="window-body">
+                    <div class="iframe-warning">
+                        O site recusou a conexão ou ficou em branco? <a href="${url}" target="_blank">Abra em uma nova guia clicando aqui</a>.
+                    </div>
+                    <iframe src="${url}"></iframe>
                 </div>
             `;
-            
-            return linkItem;
+
+            win.addEventListener('mousedown', () => bringToFront(id));
+            document.getElementById('window-manager').appendChild(win);
+
+            // Criação do botão na barra de tarefas
+            const tbItem = document.createElement('div');
+            tbItem.className = 'taskbar-item active';
+            tbItem.id = 'tb-' + id;
+            tbItem.innerText = title;
+            tbItem.onclick = () => toggleWindow(id);
+            document.getElementById('taskbar').appendChild(tbItem);
+
+            apps[id] = { win, tbItem, minimized: false, maximized: false };
         }
 
-        // Anexar listeners de copiar
-        function attachCopyListeners() {
-            document.querySelectorAll('.copy-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const number = this.getAttribute('data-number');
-                    copyToClipboard(number);
-                    showNotification();
-                });
-            });
+        function bringToFront(id) {
+            zIndexCounter++;
+            apps[id].win.style.zIndex = zIndexCounter;
+            
+            // Atualiza classe visual na barra de tarefas
+            Object.values(apps).forEach(app => app.tbItem.classList.remove('active'));
+            apps[id].tbItem.classList.add('active');
         }
-        
-        // Função para copiar para a área de transferência (moderna)
-        function copyToClipboard(text) {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).catch(() => {
-                    fallbackCopyTextToClipboard(text);
-                });
+
+        function minimizeWindow(id) {
+            apps[id].win.style.display = 'none';
+            apps[id].minimized = true;
+            apps[id].tbItem.classList.add('minimized');
+            apps[id].tbItem.classList.remove('active');
+        }
+
+        function restoreWindow(id) {
+            apps[id].win.style.display = 'flex';
+            apps[id].minimized = false;
+            apps[id].tbItem.classList.remove('minimized');
+            bringToFront(id);
+        }
+
+        function toggleWindow(id) {
+            if (apps[id].minimized) {
+                restoreWindow(id);
+            } else if (apps[id].win.style.zIndex != zIndexCounter) {
+                bringToFront(id); // Se não tá minimizada mas tá no fundo, traz pra frente
             } else {
-                fallbackCopyTextToClipboard(text);
+                minimizeWindow(id); // Se já tá no topo, minimiza
             }
         }
 
-        function fallbackCopyTextToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed';
-            textarea.style.left = '-999999px';
-            textarea.style.top = '-999999px';
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
+        function maximizeWindow(id) {
+            const win = apps[id].win;
+            if (apps[id].maximized) {
+                win.classList.remove('maximized');
+                apps[id].maximized = false;
+            } else {
+                win.classList.add('maximized');
+                apps[id].maximized = true;
+            }
+            bringToFront(id);
         }
-        
-        // Função para mostrar a notificação com animação
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            notification.classList.add('show');
+
+        function closeWindow(id) {
+            apps[id].win.remove();
+            apps[id].tbItem.remove();
+            delete apps[id];
+        }
+
+        // --- SISTEMA DE ARRASTE (DRAG & DROP) ---
+        let isDragging = false;
+        let currentDragId = null;
+        let startX, startY, initialLeft, initialTop;
+
+        function startDrag(e, id) {
+            // Ignora o arrasto se você clicou nos botões de minimizar/maximizar/fechar
+            if (e.target.tagName === 'BUTTON' || apps[id].maximized) return;
+
+            isDragging = true;
+            currentDragId = id;
+            bringToFront(id);
+
+            const win = apps[id].win;
+            const rect = win.getBoundingClientRect();
             
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 2500);
-        }
-        
-        // Função de busca melhorada
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase().trim();
-            document.querySelectorAll('.link-item').forEach(item => {
-                const title = item.getAttribute('data-title').toLowerCase();
-                if (title.includes(term) || term === '') {
-                    item.style.display = 'block';
-                    item.classList.remove('hidden');
-                    // Re-trigger animação se visível
-                    if (item.classList.contains('animate-in')) {
-                        item.classList.remove('animate-in');
-                        setTimeout(() => item.classList.add('animate-in'), 50);
-                    }
-                } else {
-                    item.style.display = 'none';
-                    item.classList.add('hidden');
-                }
-            });
-        });
-
-        // Acessibilidade: Enter no search
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                // Foca no primeiro resultado
-                const firstVisible = document.querySelector('.link-item:not(.hidden)');
-                if (firstVisible) firstVisible.querySelector('.download-btn').focus();
+            startX = e.clientX;
+            startY = e.clientY;
+            
+            // Remove o transform(translate) para gerenciar posições absolutas limpas e evitar pulos da tela
+            if(win.style.transform) {
+                win.style.left = rect.left + 'px';
+                win.style.top = rect.top + 'px';
+                win.style.transform = 'none';
             }
-        });
 
-        // Carrega os apps ao iniciar
-        loadApps();
+            initialLeft = win.offsetLeft;
+            initialTop = win.offsetTop;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            
+            // Cria um "escudo" transparente sobre os iframes para que o mouse não se perca durante o arrasto rápido
+            const iframeShield = document.createElement('div');
+            iframeShield.id = 'iframe-shield';
+            iframeShield.style.position = 'fixed';
+            iframeShield.style.top = '0'; iframeShield.style.left = '0';
+            iframeShield.style.width = '100vw'; iframeShield.style.height = '100vh';
+            iframeShield.style.zIndex = '999999';
+            document.body.appendChild(iframeShield);
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            
+            const win = apps[currentDragId].win;
+            win.style.left = (initialLeft + dx) + 'px';
+            win.style.top = (initialTop + dy) + 'px';
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            currentDragId = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            
+            const shield = document.getElementById('iframe-shield');
+            if(shield) shield.remove();
+        }
     </script>
+
 </body>
 </html>
