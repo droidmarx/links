@@ -38,7 +38,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 10px 100px 10px; /* Ajustado para mobile */
+            /* 5px de distância das bordas laterais */
+            padding: 20px 5px 100px 5px; 
             overflow-x: hidden;
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(0, 243, 255, 0.08), transparent 25%),
@@ -52,8 +53,8 @@
         /* Typography */
         .section-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.2rem, 5vw, 1.8rem); /* Responsivo */
-            margin: 30px 0 15px 0;
+            font-size: clamp(1.1rem, 4.5vw, 1.8rem);
+            margin: 25px 0 15px 0;
             text-transform: uppercase;
             letter-spacing: 3px;
             color: #fff;
@@ -65,7 +66,7 @@
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -6px;
             left: 50%;
             transform: translateX(-50%);
             width: 40%;
@@ -76,27 +77,26 @@
         }
 
         /* ==================================================
-           DESIGN MOBILE FIRST (Cards Fluidos e Grid Fixo 3x3)
+           DESIGN MOBILE FIRST (Cards Fluidos e Grid Centralizada)
            ================================================== */
            
-        /* Grid exclusiva dos Painéis (Sempre 3 colunas) */
         .grid-container {
             width: 100%;
-            max-width: 750px;
-            padding: 10px;
+            max-width: 550px; /* Limite de largura para não esticar muito no PC */
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Mantém 3 colunas mesmo no celular */
-            gap: 10px; /* Gap menor para caber na tela do celular */
-            justify-items: center;
+            /* minmax(0, 1fr) OBRIGA TODAS AS COLUNAS A TEREM O MESMO TAMANHO, CENTRALIZANDO A GRID */
+            grid-template-columns: repeat(3, minmax(0, 1fr)); 
+            gap: 8px;
+            margin: 0 auto; /* Garante centralização no eixo X */
+            padding: 0 5px; /* Espaçamento interno de respiro */
         }
 
-        /* Container da lista horizontal (Mantido o scroll horizontal) */
         .slider-container {
             width: 100%;
             max-width: 1200px;
-            padding: 15px 10px;
+            padding: 10px 5px;
             display: flex;
-            gap: 15px;
+            gap: 12px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
@@ -106,14 +106,14 @@
         .slider-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
         .slider-container::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.3); border-radius: 10px; }
 
-        /* Card Design Geral - Responsivo / Quadrado perfeito */
+        /* Card Design Geral - Fluido */
         .card {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Mantém os cards sempre quadrados independente do tamanho da tela */
+            aspect-ratio: 1 / 1; /* Quadrado perfeito */
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 8px; /* Padding reduzido no mobile */
+            border-radius: 10px;
+            padding: 6px; 
             cursor: pointer;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -124,18 +124,17 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            gap: 6px;
+            gap: 4px;
         }
 
-        /* O slider precisa de tamanho fixo mínimo para funcionar o scroll lateral */
         .slider-container .card {
-            min-width: 120px;
-            max-width: 120px;
+            min-width: 110px;
+            max-width: 110px;
             scroll-snap-align: center;
         }
 
         .card:hover {
-            transform: translateY(-5px) scale(1.03);
+            transform: translateY(-4px) scale(1.02);
             border-color: rgba(0, 243, 255, 0.5);
             background: rgba(20, 25, 45, 0.6);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 243, 255, 0.05);
@@ -143,13 +142,13 @@
 
         .card-header {
             width: 100%;
-            flex: 1; /* Pega o restante do espaço dinamicamente */
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
             background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 5px;
+            border-radius: 6px;
+            padding: 4px;
             transition: var(--transition-smooth);
         }
 
@@ -167,36 +166,38 @@
 
         .card-title {
             font-family: 'Orbitron', sans-serif;
-            /* Fonte fluida: Ajusta o tamanho da letra baseado no tamanho da tela, sem estourar o card */
-            font-size: clamp(0.55rem, 2.5vw, 1.1rem); 
+            font-size: clamp(0.55rem, 2.5vw, 1rem); 
+            line-height: 1.1; /* Melhora leitura em duas linhas */
             color: #fff;
             letter-spacing: 1px;
             text-align: center;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             margin-bottom: 2px;
-            word-wrap: break-word; /* Proteção contra palavras longas */
+            word-wrap: break-word;
+            width: 100%; /* Garante que ocupe todo o card para centralizar bem */
         }
 
         .status-dot {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 6px;
-            height: 6px;
+            top: 6px;
+            right: 6px;
+            width: 5px;
+            height: 5px;
             background-color: #00ff66;
             border-radius: 50%;
-            box-shadow: 0 0 6px #00ff66;
+            box-shadow: 0 0 5px #00ff66;
         }
 
         /* --- AJUSTES PARA TELAS MAIORES (Tablets e PCs) --- */
         @media (min-width: 768px) {
             body { padding: 40px 20px 100px 20px; }
-            .grid-container { gap: 25px; padding: 20px; }
-            .slider-container { gap: 25px; padding: 20px; }
-            .card { border-radius: 20px; padding: 15px; gap: 15px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
-            .slider-container .card { min-width: 200px; max-width: 200px; }
+            .grid-container { gap: 20px; max-width: 700px; padding: 10px; }
+            .slider-container { gap: 20px; padding: 20px 10px; }
+            .card { border-radius: 20px; padding: 15px; gap: 10px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+            .slider-container .card { min-width: 180px; max-width: 180px; }
             .card-header { border-radius: 12px; padding: 10px; }
-            .status-dot { top: 15px; right: 15px; width: 8px; height: 8px; }
+            .status-dot { top: 12px; right: 12px; width: 8px; height: 8px; }
+            .section-title { margin: 40px 0 25px 0; }
         }
 
         /* =========================================
@@ -205,10 +206,10 @@
         
         .taskbar {
             position: fixed;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
-            height: 60px;
+            height: 55px;
             background: rgba(10, 15, 25, 0.7);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
@@ -220,7 +221,8 @@
             gap: 10px;
             z-index: 99999;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            max-width: 90vw;
+            width: calc(100vw - 20px);
+            max-width: 600px;
             overflow-x: auto;
         }
         .taskbar::-webkit-scrollbar { display: none; }
@@ -272,10 +274,10 @@
             width: 900px;
             height: 650px;
             max-width: 95vw;
-            max-height: calc(100vh - 100px);
+            max-height: calc(100vh - 90px);
             background: var(--window-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -300,13 +302,13 @@
         }
 
         .window-header {
-            height: 45px;
+            height: 40px;
             background: rgba(0, 0, 0, 0.3);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 15px;
+            padding: 0 12px;
             cursor: grab;
         }
         .window-header:active { cursor: grabbing; }
@@ -314,13 +316,13 @@
         .window-title {
             font-family: 'Orbitron', sans-serif;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             pointer-events: none;
         }
 
         .window-controls { display: flex; gap: 8px; }
         .window-controls button {
-            width: 14px; height: 14px;
+            width: 12px; height: 12px;
             border: none; border-radius: 50%;
             cursor: pointer; transition: 0.2s;
         }
@@ -334,9 +336,9 @@
         .iframe-warning {
             background: rgba(10, 15, 25, 1);
             color: var(--text-muted);
-            padding: 8px;
+            padding: 6px;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .iframe-warning a { color: var(--primary-neon); text-decoration: none; }
@@ -344,12 +346,12 @@
         .window-body iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
         .toast {
-            position: fixed; top: 20px; right: 20px;
+            position: fixed; top: 15px; right: 15px;
             background: rgba(10, 15, 25, 0.95); border-left: 4px solid var(--primary-neon);
-            padding: 15px; border-radius: 8px; color: #fff;
+            padding: 12px 15px; border-radius: 6px; color: #fff;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 999999;
             transform: translateX(120%); transition: transform 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .toast.show { transform: translateX(0); }
 
@@ -396,7 +398,7 @@
         <div class="card" onclick="window.open('https://gnotifique.flutterflow.app/', '_blank')">
             <div class="status-dot"></div>
             <div class="card-header">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_S5RD3lPCrDvNulCY6BHks7rd_Ph4lc7tepKBQ6K-wQ&s=10" style="border-radius: 6px;" alt="NOTIFIQUE Logo">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_S5RD3lPCrDvNulCY6BHks7rd_Ph4lc7tepKBQ6K-wQ&s=10" style="border-radius: 4px;" alt="NOTIFIQUE Logo">
             </div>
             <h3 class="card-title">NOTIFIQUE</h3>
         </div>
