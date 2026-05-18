@@ -8,22 +8,26 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #080a13;
+            --bg-color: #05070e;
             --text-main: #ffffff;
+            --text-muted: #a0a5b5;
             --primary-neon: #00f3ff;
-            --card-bg: rgba(10, 15, 30, 0.6);
-            --window-bg: rgba(15, 20, 35, 0.95);
+            --secondary-neon: #ff00ea;
+            --card-bg: rgba(15, 20, 35, 0.4);
+            --window-bg: rgba(10, 15, 25, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* Evita selecionar texto ao arrastar janelas */
+            user-select: none;
         }
 
         body {
@@ -34,364 +38,516 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding: 40px 0 80px 0; /* Padding inferior para a barra de tarefas */
+            padding: 40px 20px 100px 20px;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.1), transparent 50%),
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
-            background-position: center;
+                radial-gradient(circle at 15% 50%, rgba(0, 243, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 234, 0.05), transparent 25%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
             background-attachment: fixed;
         }
 
-        h1 {
+        /* Typography */
+        .section-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            margin: 30px 0 10px 0;
+            font-size: 1.8rem;
+            margin: 40px 0 20px 0;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             color: #fff;
-            text-align: center;
-            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon);
-            animation: pulse-glow 2s infinite alternate;
+            position: relative;
+            display: inline-block;
         }
 
-        @keyframes pulse-glow {
-            from { text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon); }
-            to { text-shadow: 0 0 15px var(--primary-neon), 0 0 30px var(--primary-neon), 0 0 40px var(--primary-neon); }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 2px;
+            background: var(--primary-neon);
+            box-shadow: 0 0 10px var(--primary-neon);
+            border-radius: 2px;
         }
 
-        /* Slider Container (Lista Horizontal) - Agora usado em ambas as categorias */
+        /* NOVO: Container Grid para 3 em cima e 3 embaixo */
+        .grid-container {
+            width: 100%;
+            max-width: 750px; /* Ajustado para caber 3 cards perfeitamente */
+            padding: 20px 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            justify-items: center;
+        }
+
+        /* Responsividade para celulares na Grade */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Slider Container original (Mantido apenas para Subir Listas) */
         .slider-container {
             width: 100%;
-            max-width: 1100px; /* Ajustado para segurar bem os 4 cards */
-            padding: 20px 0 30px 0;
+            max-width: 1200px;
+            padding: 20px 10px;
+            display: flex;
+            gap: 25px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
-            display: flex;
-            gap: 20px; /* Reduzido o espaço entre eles */
-            padding-left: 50vw;
-            padding-right: 50vw;
-            margin-left: -50vw;
-            margin-right: -50vw;
         }
 
-        .slider-container::-webkit-scrollbar { height: 8px; }
-        .slider-container::-webkit-scrollbar-track { background: rgba(0, 255, 255, 0.05); border-radius: 10px; }
-        .slider-container::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar { height: 6px; }
+        .slider-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.3); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb:hover { background: var(--primary-neon); }
 
-        /* Card Design - TAMANHO REDUZIDO para caber 4 na tela */
+        /* Card Design */
         .card {
-            min-width: 230px; /* Reduzido de 280px para 230px */
-            max-width: 230px;
-            height: 280px; /* Altura reduzida de 320px para 280px */
+            width: 200px;
+            height: 200px;
             background: var(--card-bg);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px 15px; /* Espaçamento interno menor */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             scroll-snap-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: var(--transition-smooth);
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-        }
-
-        .card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: skewX(-20deg); transition: 0.5s; z-index: 1; pointer-events: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            gap: 15px;
         }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.05);
-            border-color: var(--primary-neon);
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.3), inset 0 0 15px rgba(0, 243, 255, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(0, 243, 255, 0.5);
+            background: rgba(20, 25, 45, 0.6);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 243, 255, 0.05), 0 0 20px rgba(0, 243, 255, 0.2);
         }
-        .card:hover::before { left: 150%; }
 
         .card-header {
-            width: 100%; height: 90px; /* Reduzido para caber nos cards menores */
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 2;
+            width: 100%;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 10px;
+            transition: var(--transition-smooth);
         }
 
         .card-header img {
-            max-width: 80%; max-height: 80%; object-fit: contain;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); transition: transform 0.4s ease, filter 0.4s ease;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+            transition: var(--transition-smooth);
         }
 
         .card:hover .card-header img {
-            transform: scale(1.15); filter: drop-shadow(0 0 15px var(--primary-neon));
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.4));
         }
 
         .card-title {
-            font-family: 'Orbitron', sans-serif; text-align: center; font-size: 1.1rem; /* Fonte menor */
-            color: #fff; letter-spacing: 2px; margin-top: 5px; text-shadow: 0 0 5px rgba(255,255,255,0.5); z-index: 2;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: #fff;
+            letter-spacing: 1.5px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            transition: var(--transition-smooth);
         }
 
-        .btn-acessar {
-            display: block; width: 100%; padding: 12px 0; text-align: center; cursor: pointer;
-            color: #fff; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold;
-            letter-spacing: 1px; background: rgba(0, 243, 255, 0.05); border: 1px solid var(--primary-neon);
-            border-radius: 8px; transition: all 0.3s ease; position: relative; overflow: hidden; z-index: 2;
+        .card:hover .card-title {
+            color: var(--primary-neon);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
         }
-
-        .btn-acessar::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-neon); z-index: -1; transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease;
-        }
-
-        .btn-acessar:hover { color: #000; box-shadow: 0 0 15px var(--primary-neon); }
-        .btn-acessar:hover::after { transform: scaleX(1); transform-origin: left; }
 
         .status-dot {
-            position: absolute; top: 12px; right: 12px; width: 8px; height: 8px;
-            background-color: #0f0; border-radius: 50%; box-shadow: 0 0 10px #0f0; animation: blink 1.5s infinite alternate;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+            background-color: #00ff66;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00ff66;
         }
-        @keyframes blink { from { opacity: 0.4; } to { opacity: 1; box-shadow: 0 0 15px #0f0, 0 0 25px #0f0; } }
 
         /* =========================================
-           GERENCIADOR DE JANELAS E BARRA DE TAREFAS
+           GERENCIADOR DE JANELAS E DOCK (BARRA DE TAREFAS)
            ========================================= */
         
         .taskbar {
             position: fixed;
-            bottom: 0; left: 0; width: 100%; height: 60px;
-            background: rgba(8, 10, 19, 0.95); border-top: 1px solid var(--primary-neon);
-            backdrop-filter: blur(10px); display: flex; align-items: center; padding: 0 20px;
-            gap: 15px; z-index: 99999; overflow-x: auto;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 65px;
+            background: rgba(10, 15, 25, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 12px;
+            z-index: 99999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .taskbar-item {
-            padding: 10px 20px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--primary-neon);
-            border-radius: 5px; color: #fff; font-family: 'Orbitron', sans-serif; cursor: pointer;
-            transition: 0.3s; white-space: nowrap; font-size: 0.9rem;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .taskbar-item:hover, .taskbar-item.active { background: var(--primary-neon); color: #000; }
-        .taskbar-item.minimized { opacity: 0.6; border-style: dashed; }
 
+        .taskbar-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .taskbar-item.active {
+            color: #fff;
+            background: rgba(0, 243, 255, 0.1);
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        .taskbar-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--primary-neon);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        .taskbar-item.minimized {
+            opacity: 0.5;
+        }
+
+        /* Estilização da Janela (Modal) */
         .window-modal {
-            position: fixed; width: 850px; height: 600px; max-width: 100vw; max-height: calc(100vh - 60px);
-            background: var(--window-bg); border: 1px solid var(--primary-neon); border-radius: 12px;
-            display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            backdrop-filter: blur(15px); transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, border-radius 0.3s;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            position: fixed;
+            width: 900px;
+            height: 650px;
+            max-width: 95vw;
+            max-height: calc(100vh - 120px);
+            background: var(--window-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(0, 243, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s, border-radius 0.3s;
+            top: 50%;
+            left: 50%;
+            animation: windowOpen 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes windowOpen {
+            from { transform: translate(-50%, -40%) scale(0.9); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         .window-modal.maximized {
             top: 0 !important; left: 0 !important; transform: none !important;
-            width: 100vw !important; height: calc(100vh - 60px) !important; border-radius: 0;
+            width: 100vw !important; height: 100vh !important; border-radius: 0;
+            animation: none;
         }
 
         .window-header {
-            height: 45px; background: rgba(0, 0, 0, 0.5); border-bottom: 1px solid var(--primary-neon);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 15px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
             cursor: grab;
         }
         .window-header:active { cursor: grabbing; }
 
         .window-title {
-            font-family: 'Orbitron', sans-serif; color: var(--primary-neon); font-size: 1.1rem;
-            letter-spacing: 1px; font-weight: bold; pointer-events: none;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .window-controls { display: flex; gap: 8px; }
         .window-controls button {
-            width: 30px; height: 30px; border: none; border-radius: 5px; background: rgba(255,255,255,0.1);
-            color: #fff; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex;
-            justify-content: center; align-items: center;
+            width: 14px; height: 14px;
+            border: none; border-radius: 50%;
+            cursor: pointer; transition: 0.2s;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 0;
         }
-        .window-controls button:hover { background: rgba(255,255,255,0.3); }
-        .window-controls .btn-close:hover { background: #ff4757; }
+        
+        .btn-close { background: #ff5f56; }
+        .btn-close:hover { background: #ff3b30; box-shadow: 0 0 8px #ff5f56; }
+        
+        .btn-min { background: #ffbd2e; }
+        .btn-min:hover { background: #f39c12; box-shadow: 0 0 8px #ffbd2e; }
+        
+        .btn-max { background: #27c93f; }
+        .btn-max:hover { background: #1abc9c; box-shadow: 0 0 8px #27c93f; }
 
         .window-body { flex: 1; display: flex; flex-direction: column; position: relative; background: #fff; }
         
         .iframe-warning {
-            background: #ffeaa7; color: #d63031; padding: 8px; text-align: center; font-size: 0.85rem; font-weight: bold;
+            background: rgba(10, 15, 25, 1);
+            color: var(--text-muted);
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .iframe-warning a { color: #0984e3; text-decoration: underline; }
+        .iframe-warning a { color: var(--primary-neon); text-decoration: none; font-weight: bold; }
+        .iframe-warning a:hover { text-decoration: underline; }
 
-        .window-body iframe { width: 100%; height: 100%; border: none; }
+        .window-body iframe { width: 100%; height: 100%; border: none; background: #fff; }
+
+        /* Toast notification */
+        .toast {
+            position: fixed; top: 20px; right: 20px;
+            background: rgba(10, 15, 25, 0.9); border-left: 4px solid var(--primary-neon);
+            padding: 15px 20px; border-radius: 8px; color: #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 999999;
+            transform: translateX(120%); transition: transform 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .toast.show { transform: translateX(0); }
 
     </style>
 </head>
 <body>
 
-    <!-- ================= SESSÃO 1 ================= -->
-    <h1>PAINÉIS DE GESTÃO</h1>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Notificação</div>
+
+    <!-- ================= SESSÃO 1: PAINÉIS ================= -->
+    <h1 class="section-title">PAINÉIS DE GESTÃO</h1>
     
-    <div class="slider-container">
+    <!-- Usando a nova classe GRID-CONTAINER, em Ordem Alfabética -->
+    <div class="grid-container">
+        
         <!-- CORE -->
-        <div class="card">
+        <div class="card" onclick="window.open('https://painelcliente.com', '_blank')">
             <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('core', 'CORE', 'https://painelcliente.com')">
+            <div class="card-header">
                 <img src="https://painelcliente.com/res/images/panel.png" alt="CORE Logo">
             </div>
             <h3 class="card-title">CORE</h3>
-            <button class="btn-acessar" onclick="openApp('core', 'CORE', 'https://painelcliente.com')">ACESSAR</button>
-        </div>
-
-        <!-- KM21 -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('km21', 'KM21', 'https://mk21plataformas.sigma.st')">
-                <img src="https://painelmk21.top/api/settings/logo/V86Yr3mN?v=e0d69312" alt="KM21 Logo">
-            </div>
-            <h3 class="card-title">KM21</h3>
-            <button class="btn-acessar" onclick="openApp('km21', 'KM21', 'https://mk21plataformas.sigma.st')">ACESSAR</button>
-        </div>
-
-        <!-- SLIM -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('slim', 'SLIM', 'https://q.slimtv.in/')">
-                <img src="https://painelslim.site/api/settings/logo/2O6Bq5RD?v=7b3b597a" alt="SLIM Logo">
-            </div>
-            <h3 class="card-title">SLIM</h3>
-            <button class="btn-acessar" onclick="openApp('slim', 'SLIM', 'https://q.slimtv.in/')">ACESSAR</button>
-        </div>
-
-        <!-- X3 -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('x3', 'X3', 'https://painelx3.site/#/sign-in')">
-                <img src="https://painelx3.site/api/settings/logo/jwDZxAkN?v=cf196d55" alt="X3 Logo">
-            </div>
-            <h3 class="card-title">X3</h3>
-            <button class="btn-acessar" onclick="openApp('x3', 'X3', 'https://painelx3.site/#/sign-in')">ACESSAR</button>
-        </div>
-
-        <!-- NOTIFIQUE -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('notifique', 'NOTIFIQUE', 'https://gnotifique.flutterflow.app/')">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_S5RD3lPCrDvNulCY6BHks7rd_Ph4lc7tepKBQ6K-wQ&s=10" style="border-radius: 10px;" alt="NOTIFIQUE Logo">
-            </div>
-            <h3 class="card-title">NOTIFIQUE</h3>
-            <button class="btn-acessar" onclick="openApp('notifique', 'NOTIFIQUE', 'https://gnotifique.flutterflow.app/')">ACESSAR</button>
         </div>
 
         <!-- IBO REVENDA -->
-        <div class="card">
+        <div class="card" onclick="window.open('https://gerenciaapp.top', '_blank')">
             <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('iborevenda', 'IBO REVENDA', 'https://gerenciaapp.top')">
+            <div class="card-header">
                 <img src="https://gerenciaapp.top/storage/logos/f20wStrbdXRPzXn8viYqlzk8LAQA8dZgcQT0PVRj.png" alt="IBO Revenda Logo">
             </div>
             <h3 class="card-title">IBO REVENDA</h3>
-            <button class="btn-acessar" onclick="openApp('iborevenda', 'IBO REVENDA', 'https://gerenciaapp.top')">ACESSAR</button>
         </div>
+
+        <!-- KM21 -->
+        <div class="card" onclick="window.open('https://mk21plataformas.sigma.st', '_blank')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://painelmk21.top/api/settings/logo/V86Yr3mN?v=e0d69312" alt="KM21 Logo">
+            </div>
+            <h3 class="card-title">KM21</h3>
+        </div>
+
+        <!-- NOTIFIQUE -->
+        <div class="card" onclick="window.open('https://gnotifique.flutterflow.app/', '_blank')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_S5RD3lPCrDvNulCY6BHks7rd_Ph4lc7tepKBQ6K-wQ&s=10" style="border-radius: 10px;" alt="NOTIFIQUE Logo">
+            </div>
+            <h3 class="card-title">NOTIFIQUE</h3>
+        </div>
+
+        <!-- SLIM -->
+        <div class="card" onclick="window.open('https://q.slimtv.in/', '_blank')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://painelslim.site/api/settings/logo/2O6Bq5RD?v=7b3b597a" alt="SLIM Logo">
+            </div>
+            <h3 class="card-title">SLIM</h3>
+        </div>
+
+        <!-- X3 -->
+        <div class="card" onclick="window.open('https://painelx3.site/#/sign-in', '_blank')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://painelx3.site/api/settings/logo/jwDZxAkN?v=cf196d55" alt="X3 Logo">
+            </div>
+            <h3 class="card-title">X3</h3>
+        </div>
+
     </div>
 
 
-    <!-- ================= SESSÃO 2 ================= -->
-    <!-- Modificado de Grid para Slider como solicitado -->
-    <h1>SUBIR LISTAS</h1>
+    <!-- ================= SESSÃO 2: SUBIR LISTAS ================= -->
+    <h1 class="section-title">SUBIR LISTAS</h1>
     
+    <!-- Slider original mantido aqui, apenas mudamos para Ordem Alfabética -->
     <div class="slider-container">
         
-        <!-- LazerPlay -->
-        <div class="card">
+        <!-- Assist+ -->
+        <div class="card" onclick="handleAppOpen('assistplus', 'ASSIST+', 'https://exclusivovip.org/#/login')">
             <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('lazerplay', 'LAZERPLAY', 'https://appacesso.com/#/login')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=LazerPlay" alt="LazerPlay">
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=Assist+" alt="Assist+">
             </div>
-            <h3 class="card-title">LAZERPLAY</h3>
-            <button class="btn-acessar" onclick="openApp('lazerplay', 'LAZERPLAY', 'https://appacesso.com/#/login')">ABRIR JANELA</button>
-        </div>
-
-        <!-- FunPlay -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('funplay', 'FUNPLAY', 'https://funplays.app/#/login')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=FunPlay" alt="FunPlay">
-            </div>
-            <h3 class="card-title">FUNPLAY</h3>
-            <button class="btn-acessar" onclick="openApp('funplay', 'FUNPLAY', 'https://funplays.app/#/login')">ABRIR JANELA</button>
-        </div>
-
-        <!-- QuickPlayer -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('quickplayer', 'QUICKPLAYER', 'https://quickplayer.app/#/login')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=QuickPlayer" alt="QuickPlayer">
-            </div>
-            <h3 class="card-title">QUICKPLAYER</h3>
-            <button class="btn-acessar" onclick="openApp('quickplayer', 'QUICKPLAYER', 'https://quickplayer.app/#/login')">ABRIR JANELA</button>
+            <h3 class="card-title">ASSIST+</h3>
         </div>
 
         <!-- DreamTV -->
-        <div class="card">
+        <div class="card" onclick="handleAppOpen('dreamtv', 'DREAMTV', 'https://dreamtv.life/#/login')">
             <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('dreamtv', 'DREAMTV', 'https://dreamtv.life/#/login')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=DreamTV" alt="DreamTV">
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=DreamTV" alt="DreamTV">
             </div>
             <h3 class="card-title">DREAMTV</h3>
-            <button class="btn-acessar" onclick="openApp('dreamtv', 'DREAMTV', 'https://dreamtv.life/#/login')">ABRIR JANELA</button>
-        </div>
-
-        <!-- IboPlayer -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('iboplayer', 'IBOPLAYER', 'https://iboplayer.com/device/login')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=IboPlayer" alt="IboPlayer">
-            </div>
-            <h3 class="card-title">IBOPLAYER</h3>
-            <button class="btn-acessar" onclick="openApp('iboplayer', 'IBOPLAYER', 'https://iboplayer.com/device/login')">ABRIR JANELA</button>
-        </div>
-
-        <!-- Assist+ -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('assistplus', 'ASSIST+', 'https://exclusivovip.org/#/login')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=Assist+" alt="Assist+">
-            </div>
-            <h3 class="card-title">ASSIST+</h3>
-            <button class="btn-acessar" onclick="openApp('assistplus', 'ASSIST+', 'https://exclusivovip.org/#/login')">ABRIR JANELA</button>
-        </div>
-
-        <!-- SmartOne -->
-        <div class="card">
-            <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('smartone', 'SMARTONE', 'https://smartone-iptv.com/')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=SmartOne" alt="SmartOne">
-            </div>
-            <h3 class="card-title">SMARTONE</h3>
-            <button class="btn-acessar" onclick="openApp('smartone', 'SMARTONE', 'https://smartone-iptv.com/')">ABRIR JANELA</button>
         </div>
 
         <!-- Duplecast -->
-        <div class="card">
+        <div class="card" onclick="handleAppOpen('duplecast', 'DUPLECAST', 'https://duplecast.com/')">
             <div class="status-dot"></div>
-            <div class="card-header" onclick="openApp('duplecast', 'DUPLECAST', 'https://duplecast.com/')">
-                <img src="https://placehold.co/200x80/transparent/00f3ff?text=Duplecast" alt="Duplecast">
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=Duplecast" alt="Duplecast">
             </div>
             <h3 class="card-title">DUPLECAST</h3>
-            <button class="btn-acessar" onclick="openApp('duplecast', 'DUPLECAST', 'https://duplecast.com/')">ABRIR JANELA</button>
         </div>
+
+        <!-- FunPlay -->
+        <div class="card" onclick="handleAppOpen('funplay', 'FUNPLAY', 'https://funplays.app/#/login')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=FunPlay" alt="FunPlay">
+            </div>
+            <h3 class="card-title">FUNPLAY</h3>
+        </div>
+
+        <!-- IboPlayer -->
+        <div class="card" onclick="handleAppOpen('iboplayer', 'IBOPLAYER', 'https://iboplayer.com/device/login')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=IboPlayer" alt="IboPlayer">
+            </div>
+            <h3 class="card-title">IBOPLAYER</h3>
+        </div>
+        
+        <!-- LazerPlay -->
+        <div class="card" onclick="handleAppOpen('lazerplay', 'LAZERPLAY', 'https://appacesso.com/#/login')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=LazerPlay" alt="LazerPlay">
+            </div>
+            <h3 class="card-title">LAZERPLAY</h3>
+        </div>
+
+        <!-- QuickPlayer -->
+        <div class="card" onclick="handleAppOpen('quickplayer', 'QUICKPLAYER', 'https://quickplayer.app/#/login')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=QuickPlayer" alt="QuickPlayer">
+            </div>
+            <h3 class="card-title">QUICKPLAYER</h3>
+        </div>
+
+        <!-- SmartOne -->
+        <div class="card" onclick="handleAppOpen('smartone', 'SMARTONE', 'https://smartone-iptv.com/')">
+            <div class="status-dot"></div>
+            <div class="card-header">
+                <img src="https://placehold.co/200x80/05070e/00f3ff?text=SmartOne" alt="SmartOne">
+            </div>
+            <h3 class="card-title">SMARTONE</h3>
+        </div>
+
     </div>
 
     <!-- ================= INTERFACE OS ================= -->
-    <!-- Barra de Tarefas -->
     <div class="taskbar" id="taskbar"></div>
-
-    <!-- Container do Gerenciador de Janelas -->
     <div id="window-manager"></div>
 
     <script>
+        // Lógica de Roteamento Inteligente (Smart Router)
+        const blockedDomains = [
+            'smartone-iptv.com',
+            'duplecast.com',
+            'iboplayer.com'
+        ];
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        function handleAppOpen(id, title, url) {
+            const isBlocked = blockedDomains.some(domain => url.includes(domain));
+
+            if (isBlocked) {
+                showToast(`🛡️ ${title} bloqueia iframes. Abrindo em nova guia segura...`);
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, 800);
+            } else {
+                openOSApp(id, title, url);
+            }
+        }
+
+        // --- SISTEMA DE JANELAS (MODAIS) ---
         let zIndexCounter = 1000;
         const apps = {};
 
-        function openApp(id, title, url) {
-            // Se o app já estiver aberto, traz pra frente ou restaura
+        function openOSApp(id, title, url) {
             if (apps[id]) {
                 restoreWindow(id);
                 return;
@@ -399,28 +555,26 @@
 
             zIndexCounter++;
 
-            // Criação da Janela
             const win = document.createElement('div');
             win.className = 'window-modal';
             win.id = 'win-' + id;
             win.style.zIndex = zIndexCounter;
 
-            // Offset para não criar as janelas 100% sobrepostas umas nas outras
             const offset = (Object.keys(apps).length * 20);
             win.style.transform = `translate(calc(-50% + ${offset}px), calc(-50% + ${offset}px))`;
 
             win.innerHTML = `
                 <div class="window-header" onmousedown="startDrag(event, '${id}')">
-                    <span class="window-title">${title}</span>
+                    <span class="window-title">💻 ${title}</span>
                     <div class="window-controls">
-                        <button onclick="minimizeWindow('${id}')" title="Minimizar">_</button>
-                        <button onclick="maximizeWindow('${id}')" title="Maximizar">◻</button>
-                        <button class="btn-close" onclick="closeWindow('${id}')" title="Fechar">✕</button>
+                        <button class="btn-min" onclick="minimizeWindow('${id}')" title="Minimizar"></button>
+                        <button class="btn-max" onclick="maximizeWindow('${id}')" title="Maximizar"></button>
+                        <button class="btn-close" onclick="closeWindow('${id}')" title="Fechar"></button>
                     </div>
                 </div>
                 <div class="window-body">
                     <div class="iframe-warning">
-                        O site recusou a conexão ou ficou em branco? <a href="${url}" target="_blank">Abra em uma nova guia clicando aqui</a>.
+                        Site em branco ou erro de conexão? <a href="${url}" target="_blank">Clique aqui para abrir na web</a>.
                     </div>
                     <iframe src="${url}"></iframe>
                 </div>
@@ -429,11 +583,10 @@
             win.addEventListener('mousedown', () => bringToFront(id));
             document.getElementById('window-manager').appendChild(win);
 
-            // Criação do botão na barra de tarefas
             const tbItem = document.createElement('div');
             tbItem.className = 'taskbar-item active';
             tbItem.id = 'tb-' + id;
-            tbItem.innerText = title;
+            tbItem.innerHTML = `<span>${title}</span>`;
             tbItem.onclick = () => toggleWindow(id);
             document.getElementById('taskbar').appendChild(tbItem);
 
@@ -443,8 +596,6 @@
         function bringToFront(id) {
             zIndexCounter++;
             apps[id].win.style.zIndex = zIndexCounter;
-            
-            // Atualiza classe visual na barra de tarefas
             Object.values(apps).forEach(app => app.tbItem.classList.remove('active'));
             apps[id].tbItem.classList.add('active');
         }
@@ -467,9 +618,9 @@
             if (apps[id].minimized) {
                 restoreWindow(id);
             } else if (apps[id].win.style.zIndex != zIndexCounter) {
-                bringToFront(id); // Se não tá minimizada mas tá no fundo, traz pra frente
+                bringToFront(id);
             } else {
-                minimizeWindow(id); // Se já tá no topo, minimiza
+                minimizeWindow(id);
             }
         }
 
@@ -497,7 +648,6 @@
         let startX, startY, initialLeft, initialTop;
 
         function startDrag(e, id) {
-            // Ignora o arrasto se você clicou nos botões de minimizar/maximizar/fechar
             if (e.target.tagName === 'BUTTON' || apps[id].maximized) return;
 
             isDragging = true;
@@ -510,11 +660,11 @@
             startX = e.clientX;
             startY = e.clientY;
             
-            // Remove o transform(translate) para gerenciar posições absolutas limpas e evitar pulos da tela
             if(win.style.transform) {
                 win.style.left = rect.left + 'px';
                 win.style.top = rect.top + 'px';
                 win.style.transform = 'none';
+                win.style.animation = 'none';
             }
 
             initialLeft = win.offsetLeft;
@@ -523,7 +673,6 @@
             document.addEventListener('mousemove', drag);
             document.addEventListener('mouseup', stopDrag);
             
-            // Cria um "escudo" transparente sobre os iframes para que o mouse não se perca durante o arrasto rápido
             const iframeShield = document.createElement('div');
             iframeShield.id = 'iframe-shield';
             iframeShield.style.position = 'fixed';
